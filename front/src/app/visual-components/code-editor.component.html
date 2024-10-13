@@ -1,4 +1,9 @@
 <div id="code">
-  <textarea id="code-area" placeholder="Paste or type your SQL code here..." spellcheck="false" (input)='inputEvent($event)'></textarea>
+  <textarea id="code-area" placeholder="Paste or type your SQL code here..." spellcheck="false"
+    (input)='inputEvent($event)'></textarea>
   <div id="highlight" [innerHTML]="highlightText"></div>
+  <div id="buttons">
+    <button id="exex-button" class="code-button" (click)='execute()'>Execute</button>
+    <button id="exex-button" class="code-button" (click)='clear()'>Clear</button>
+  </div>
 </div>

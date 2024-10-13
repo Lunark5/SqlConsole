@@ -1,10 +1,12 @@
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers;
 
+[EnableCors("CorsApi")]
+[Route("api")]
 [ApiController]
-[Route("[controller]")]
 public class SqlController : ControllerBase
 {
     private ILogger<SqlController> _logger;
@@ -17,11 +19,11 @@ public class SqlController : ControllerBase
     }
 
     [HttpPost("ExecuteCommand")]
-    public string Execute(string command)
+    public string Execute([FromBody]ExecuteDTO dto)
     {
-        try 
+        try
         {
-            return _db.Execute(command);
+            return _db.Execute(dto.Command, false);
         }
         catch (Exception ex)
         {
@@ -31,10 +33,10 @@ public class SqlController : ControllerBase
         }
     }
 
-    [HttpPost("GetTables")]
+    [HttpGet("GetTables")]
     public string GetTables()
     {
-        try 
+        try
         {
             return _db.GetTables();
         }
@@ -47,11 +49,11 @@ public class SqlController : ControllerBase
     }
 
     [HttpPost("GetColumns")]
-    public string GetColumns(string tableName)
+    public string GetColumns([FromBody]GetColumnsDTO dto)
     {
-        try 
+        try
         {
-            return _db.GetColumns(tableName);
+            return _db.GetColumns(dto.TableName);
         }
         catch (Exception ex)
         {

@@ -10,9 +10,8 @@ internal class PostgreDb(IOptions<ConnectionStrings> options) : IDataBase
     private const string GetTablesCommand = "SELECT table_name FROM information_schema.tables WHERE table_schema='public'";
     private const string GetColumnsCommand = "SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '{0}'";
 
-    public string Execute(string code)
+    public string Execute(string code, bool flat = false)
     {
-        var resultList = new List<List<string>>();
         using var connection = new NpgsqlConnection(options.Value.DefaultConnection);
 
         connection.Open();
@@ -20,29 +19,53 @@ internal class PostgreDb(IOptions<ConnectionStrings> options) : IDataBase
         var command = new NpgsqlCommand(code, connection);
         var dr = command.ExecuteReader();
 
-        while (dr.Read())
+        if (flat)
         {
             var row = new List<string>();
-
-            for (var i = 0; i < dr.FieldCount; i++)
+            
+            while (dr.Read())
             {
-                var stringValue = dr.GetValue(i).ToString();
+                for (var i = 0; i < dr.FieldCount; i++)
+                {
+                    var stringValue = dr.GetValue(i).ToString();
 
-                if (string.IsNullOrEmpty(stringValue))
-                    stringValue = string.Empty;
+                    if (string.IsNullOrEmpty(stringValue))
+                        stringValue = string.Empty;
 
-                row.Add(stringValue);
+                    row.Add(stringValue);
+                }
             }
 
-            resultList.Add(row);
+            return JsonSerializer.Serialize(row);
         }
+        else
+        {
+            var resultList = new List<List<string>>();
 
-        return JsonSerializer.Serialize(resultList);
+            while (dr.Read())
+            {
+                var row = new List<string>();
+
+                for (var i = 0; i < dr.FieldCount; i++)
+                {
+                    var stringValue = dr.GetValue(i).ToString();
+
+                    if (string.IsNullOrEmpty(stringValue))
+                        stringValue = string.Empty;
+
+                    row.Add(stringValue);
+                }
+
+                resultList.Add(row);
+            }
+
+            return JsonSerializer.Serialize(resultList);
+        }
     }
 
     public string GetColumns(string tableName)
-        => Execute(string.Format(GetColumnsCommand, tableName));
+        => Execute(string.Format(GetColumnsCommand, tableName), true);
 
     public string GetTables()
-        => Execute(GetTablesCommand);
+        => Execute(GetTablesCommand, true);
 }

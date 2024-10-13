@@ -31,3 +31,10 @@
 /home/lunark/Разработка/SqlConsole/back/API/obj/Debug/net8.0/API.genruntimeconfig.cache
 /home/lunark/Разработка/SqlConsole/back/API/obj/Debug/net8.0/ref/API.dll
 /home/lunark/Разработка/SqlConsole/back/API/bin/Debug/net8.0/Npgsql.dll
+/home/lunark/Разработка/SqlConsole/back/API/obj/Debug/net8.0/API.sourcelink.json
+/home/lunark/Разработка/SqlConsole/back/API/bin/Debug/net8.0/System.Web.Cors.dll
+/home/lunark/Разработка/SqlConsole/back/API/bin/Debug/net8.0/System.Net.Http.Formatting.dll
+/home/lunark/Разработка/SqlConsole/back/API/bin/Debug/net8.0/System.Web.Http.dll
+/home/lunark/Разработка/SqlConsole/back/API/bin/Debug/net8.0/System.Web.Http.Cors.dll
+/home/lunark/Разработка/SqlConsole/back/API/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/lunark/Разработка/SqlConsole/back/API/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
